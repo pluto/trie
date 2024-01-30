@@ -10,6 +10,7 @@ edition = "2018"
 
 [dependencies]
 hash-db = { path = "../hash-db", default-features = false, version = "0.15.2" }
+rlp = "0.5.2"
 
 [features]
 default = ["std"]

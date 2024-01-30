@@ -274,6 +274,18 @@ where
 	trie_root::<H, S, _, _, _>(input.into_iter().map(|(k, v)| (H::hash(k.as_ref()), v)), threshold)
 }
 
+pub fn ordered_trie_root<H, S, I>(input: I, threshold: Option<u32>) -> H::Out
+where
+	I: IntoIterator,
+	I::Item: AsRef<[u8]>,
+	H: Hasher,
+	S: TrieStream,
+	<H as hash_db::Hasher>::Out: cmp::Ord,
+{
+	trie_root::<H, S, _, _, _>(input.into_iter().enumerate().map(|(i, v)| (rlp::encode(&i), v)), threshold)
+}
+
+
 /// Takes a slice of key/value tuples where the key is a slice of nibbles
 /// and encodes it into the provided `Stream`.
 fn build_trie<H, S, A, B>(
